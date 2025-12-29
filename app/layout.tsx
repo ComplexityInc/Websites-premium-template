@@ -32,6 +32,10 @@ import { SmoothScroll } from "@/components/providers/SmoothScroll";
 
 // ... existing code ...
 
+import { Suspense } from "react";
+
+// ... existing code ...
+
 import { ScrollToHash } from "@/components/scroll/ScrollToHash";
 
 // ... existing code ...
@@ -48,7 +52,9 @@ export default function RootLayout({
         fontSans.variable
       )} suppressHydrationWarning>
         <SmoothScroll>
-          <ScrollToHash />
+          <Suspense fallback={null}>
+            <ScrollToHash />
+          </Suspense>
           <SiteNav />
           <main className="flex-1 min-h-screen flex flex-col">
             {children}
