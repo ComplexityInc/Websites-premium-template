@@ -42,12 +42,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     // If wide=true, we use a much larger overlay to cover full-width buttons (like forms).
     const animatedBlob = (
       <span className={cn(
-        "absolute bottom-0 left-0 transition-all duration-300 ease-in-out z-0",
+        "pointer-events-none absolute bottom-0 left-0 transition-all duration-500 ease-out z-0",
         blobColor,
         // Standard button logic (from animated-button.tsx reference)
         !wide && "w-60 h-60 rounded-full rotate-[-40deg] -translate-x-full translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0",
-        // Wide button logic: increased dimensions for full coverage, adjusted translate vector
-        wide && "w-[250%] h-[600%] rotate-[-40deg] -translate-x-[110%] translate-y-[110%] group-hover:translate-x-[-20%] group-hover:translate-y-[-40%] origin-bottom-left"
+        // Wide button logic: reliable oversized blob for full-width coverage
+        wide && "w-[220%] h-[520%] rounded-full rotate-[-40deg] -translate-x-[120%] translate-y-[120%] group-hover:translate-x-[-18%] group-hover:translate-y-[-55%] origin-bottom-left"
       )} />
     );
 
