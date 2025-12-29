@@ -103,7 +103,7 @@ export function CapabilitiesGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="group relative aspect-square overflow-hidden bg-white border border-border"
+              className="group relative aspect-square overflow-hidden bg-white border border-border rounded-lg"
             >
               <div className="absolute inset-0">
                 <Image
@@ -129,7 +129,7 @@ export function CapabilitiesGrid() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ delay: siteConfig.capabilities.items.length * 0.1, duration: 0.5 }}
-            className="aspect-square flex items-center justify-center p-8 bg-background border border-accent/20"
+            className="aspect-square flex items-center justify-center p-8 bg-background border border-accent/20 rounded-lg"
           >
             <div className="text-center">
               <p className="text-lg font-medium text-muted-foreground mb-4">

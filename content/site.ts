@@ -37,23 +37,23 @@ export const siteConfig = {
     items: [
       { 
         title: "Architectural Slabs", 
-        image: "/images/placeholder-1.jpg" 
+        image: "/images/capabilities/slabs.jpg" 
       },
       { 
         title: "Commercial Foundations", 
-        image: "/images/placeholder-2.jpg" 
+        image: "/images/capabilities/commercial.jpg" 
       },
       { 
         title: "Civil Works", 
-        image: "/images/placeholder-3.jpg" 
+        image: "/images/capabilities/civil.jpg" 
       },
       { 
         title: "Detailed Excavation", 
-        image: "/images/placeholder-4.jpg" 
+        image: "/images/capabilities/maintanence.jpg" 
       },
       { 
         title: "Formwork Solutions", 
-        image: "/images/placeholder-5.jpg" 
+        image: "/images/capabilities/sealents.jpg" 
       },
     ],
   },

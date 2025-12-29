@@ -99,3 +99,43 @@
     transition: none !important;
   }
 }
+
+/* Marquee Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Move half the total width (one full set) */
+  }
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  /* Gradient Mask for fading edges */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  gap: 4rem; /* Space between logos */
+  width: max-content; /* Ensure it fits all logos */
+  animation: scroll 30s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}

@@ -18,7 +18,7 @@ const PANELS = [
     type: "content" as const,
     title: "The team behind the pour.",
     description: "Founded on the principles of hard work and honest communication, our team is our greatest asset.",
-    image: "/images/team-placeholder.jpg",
+    image: "/images/about/aboutusimg9.jpg",
     cta: { label: "Meet the Team", href: "/about" },
   },
   {
@@ -45,10 +45,9 @@ export function HorizontalScrollSection() {
   );
 
   // Text Parallax Logic for Panel 2 (Precision Engineering)
-  // Panel 2 starts appearing after scrollYProgress > 0.4
-  // We want the text to "slam" into place as the section reaches the end.
-  const textX1 = useTransform(scrollYProgress, [0.4, 0.85], ["-100%", "0%"]); 
-  const textX2 = useTransform(scrollYProgress, [0.4, 0.85], ["100%", "0%"]);  
+  // Fix: Start at positive offset so they are hidden at scroll 0 and come from the right.
+  const textX1 = useTransform(scrollYProgress, [0.3, 0.9], ["150%", "0%"]); 
+  const textX2 = useTransform(scrollYProgress, [0.4, 1.0], ["200%", "0%"]);  
 
   return (
     <section
@@ -95,6 +94,7 @@ export function HorizontalScrollSection() {
                   image={panel.image!}
                   cta={panel.cta!}
                   isLast={index === PANEL_COUNT - 1}
+                  progress={scrollYProgress}
                 />
               )}
             </div>
@@ -159,12 +159,19 @@ function ContentPanel({
   image,
   cta,
   isLast,
+  progress,
 }: {
   title: string;
   image: string;
   cta: { label: string; href: string };
   isLast: boolean;
+  progress: MotionValue<number>;
 }) {
+  // Image Reveal Parallax: Start off-screen (right) and fade in as scroll begins [0, 0.3]
+  const imageX = useTransform(progress, [0, 0.3], ["100px", "0px"]);
+  const imageOpacity = useTransform(progress, [0, 0.2], [0, 1]);
+  const imageScale = useTransform(progress, [0, 0.4], [0.9, 1]);
+
   return (
     <div className="h-full grid grid-cols-1 lg:grid-cols-2 items-center">
       {/* Text Side */}
@@ -227,10 +234,24 @@ function ContentPanel({
         </div>
       </div>
 
-      {/* Image Side */}
-      <div className="relative h-64 lg:h-full order-1 lg:order-2">
-        <Image src={image} alt={title} fill className="object-cover" />
-      </div>
+      {/* Image Side - Reveal effect */}
+      <motion.div 
+        className="relative h-[50vh] lg:h-[70vh] order-1 lg:order-2 w-full max-w-2xl mx-auto rounded-3xl overflow-hidden shadow-2xl"
+        style={{ 
+          x: imageX, 
+          opacity: imageOpacity,
+          scale: imageScale
+        }}
+      >
+        <Image 
+          src={image} 
+          alt={title} 
+          fill 
+          className="object-cover" 
+          priority
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
+      </motion.div>
     </div>
   );
 }
