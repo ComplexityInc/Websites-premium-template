@@ -13,7 +13,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "outline", size = "default", wide = false, href, children, ...props }, ref) => {
     
     // Base container styles
-    const baseStyles = "relative inline-flex items-center justify-center font-medium overflow-hidden font-medium transition-all duration-300 ease-in-out group outline-none focus:ring-2 focus:ring-ring disabled:pointer-events-none disabled:opacity-50 uppercase tracking-wide text-sm";
+    // CRITICAL: "group" enables group-hover on children, "relative overflow-hidden" clips the blob
+    const baseStyles = "relative inline-flex items-center justify-center font-medium overflow-hidden transition-all duration-300 ease-in-out group outline-none focus:ring-2 focus:ring-ring disabled:pointer-events-none disabled:opacity-50 uppercase tracking-wide text-sm";
     
     // Size styles
     const sizes = {
@@ -24,45 +25,38 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const sizeClasses = sizes[size];
 
     // Variant-specific styles (outer container)
+    // REMOVED hover:text-* from container to avoid conflict with inner span group-hover
     const variantContainerStyles = {
-       // Solid: Green BG, White Text -> (Hover) Green Text (on White Blob)
-       // We set bg-accent (Green) initially. The blob will be White.
-       solid: "bg-accent text-accent-foreground border border-accent hover:text-white",
-       
-       // Outline: Transparent BG, Green Text -> (Hover) White Text (on Green Blob)
-       outline: "bg-transparent border border-accent text-accent hover:text-white",
+       solid: "bg-accent border border-accent",
+       outline: "bg-transparent border border-accent",
     };
 
     // Determine blob color based on variant
-    // Solid -> White Blob (reverses the green)
-    // Outline -> Green Blob (fills the outline)
     const blobColor = variant === "solid" ? "bg-white" : "bg-accent";
 
     // The animated background blob
-    // If wide=true, we use a much larger overlay to cover full-width buttons (like forms).
+    // FIXED: Using Tailwind-native translate utilities that are guaranteed to compile
+    // Wide buttons use larger fixed dimensions with simpler transform logic
     const animatedBlob = (
       <span className={cn(
-        "pointer-events-none absolute bottom-0 left-0 transition-all duration-500 ease-out z-0 rounded-full",
+        "pointer-events-none absolute rounded-full transition-all duration-500 ease-out z-0",
         blobColor,
-        // Standard button logic (compact buttons like header CTA)
-        !wide && "w-60 h-60 rotate-[-40deg] -translate-x-full translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0",
-        // Wide button logic: oversized blob designed for full-width buttons
-        // Uses larger dimensions and adjusted transforms to ensure edge-to-edge coverage
-        wide && "w-[300%] h-[800%] rotate-[-40deg] -translate-x-[110%] translate-y-[95%] group-hover:translate-x-[-15%] group-hover:translate-y-[-45%] origin-bottom-left"
+        // Standard button: blob starts off-screen bottom-left, slides up-right on hover
+        !wide && "w-60 h-60 -bottom-32 -left-32 rotate-[-40deg] group-hover:bottom-0 group-hover:left-0 group-hover:-translate-y-1/4",
+        // Wide button: much larger blob, uses same bottom-left to center animation
+        wide && "w-[600px] h-[600px] -bottom-[500px] -left-[200px] rotate-[-40deg] group-hover:bottom-[-200px] group-hover:left-[-100px]"
       )} />
     );
 
     // Inner text span
+    // Text color controlled ONLY here via group-hover (no conflict with container)
     const contentSpan = (
       <span className={cn(
         "relative w-full text-center transition-colors duration-300 ease-in-out z-10",
-        // Text Color Logic:
-        // Solid: Starts White (accent-foreground). On Hover (White Blob), turns Green (accent).
-        // Outline: Starts Green (current). On Hover (Green Blob), turns White.
-        // NOTE: User manually edited this section previously to simplify solid variant hover logic.
-        // We ensure it remains consistent with their intent:
-        // "solid": "bg-accent text-accent-foreground border border-accent hover:text-white"
-        variant === "solid" ? "text-accent-foreground group-hover:text-accent" : "text-current group-hover:text-white"
+        // Solid: white text -> green text on hover (white blob reveals)
+        variant === "solid" && "text-accent-foreground group-hover:text-accent",
+        // Outline: green text -> white text on hover (green blob fills)
+        variant === "outline" && "text-accent group-hover:text-white"
       )}>
         {children}
       </span>
