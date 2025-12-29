@@ -2,18 +2,22 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { SlideButton } from "@/components/ui/slide-button";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function ContactForm() {
   const [formState, setFormState] = useState<"idle" | "submitting" | "success">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSlideComplete = () => {
     setFormState("submitting");
     // Simulate network request
     setTimeout(() => {
       setFormState("success");
-    }, 1500);
+    }, 2000);
+  };
+
+  const handleReset = () => {
+    setFormState("idle");
   };
 
   if (formState === "success") {
@@ -23,7 +27,7 @@ export function ContactForm() {
         <p className="text-muted-foreground mb-6">
           Thank you for reaching out. We will get back to you shortly.
         </p>
-        <Button onClick={() => setFormState("idle")} variant="outline">
+        <Button onClick={handleReset} variant="outline">
           Send Another
         </Button>
       </Reveal>
@@ -33,7 +37,7 @@ export function ContactForm() {
   return (
     <Reveal className="bg-white p-8 md:p-10 border border-border shadow-sm">
       <h3 className="text-2xl font-bold mb-6">Send us a message</h3>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label htmlFor="name" className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Name</label>
@@ -78,15 +82,13 @@ export function ContactForm() {
           />
         </div>
 
-        <Button 
-          type="submit" 
+        <SlideButton
+          onSlideComplete={handleSlideComplete}
+          status={formState === "submitting" ? "loading" : formState === "success" ? "success" : "idle"}
           disabled={formState === "submitting"}
-          variant="solid"
-          wide
+          label="SLIDE TO SEND"
           className="w-full"
-        >
-          {formState === "submitting" ? "Sending..." : "Send Message"}
-        </Button>
+        />
       </form>
     </Reveal>
   );
