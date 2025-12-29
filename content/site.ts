@@ -52,7 +52,7 @@ export const siteConfig = {
         image: "/images/capabilities/maintanence.jpg" 
       },
       { 
-        title: "Formwork Solutions", 
+        title: "Exposed Aggregate", 
         image: "/images/capabilities/sealents.jpg" 
       },
     ],
