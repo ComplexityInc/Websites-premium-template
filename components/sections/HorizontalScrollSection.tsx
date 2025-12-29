@@ -44,12 +44,11 @@ export function HorizontalScrollSection() {
     ["0%", "-50%"]
   );
 
-  // Text Parallax Logic for Panel 2
-  // As we scroll through the section, the text should slide.
-  // We want the text to be "moving" as it enters the screen.
-  // Panel 2 enters from the right.
-  const textX1 = useTransform(scrollYProgress, [0.2, 1], ["-20%", "0%"]); // "PRECISION" slides right to center
-  const textX2 = useTransform(scrollYProgress, [0.2, 1], ["20%", "0%"]);  // "ENGINEERING" slides left to center
+  // Text Parallax Logic for Panel 2 (Precision Engineering)
+  // Panel 2 starts appearing after scrollYProgress > 0.4
+  // We want the text to "slam" into place as the section reaches the end.
+  const textX1 = useTransform(scrollYProgress, [0.4, 0.85], ["-100%", "0%"]); 
+  const textX2 = useTransform(scrollYProgress, [0.4, 0.85], ["100%", "0%"]);  
 
   return (
     <section
@@ -78,14 +77,14 @@ export function HorizontalScrollSection() {
                   <motion.div style={{ x: textX1 }}>
                     <TextAnimation 
                       text="PRECISION" 
-                      image="/images/text-bg-1.png"
+                      image="/images/service-3.jpg"
                       className="items-start"
                     />
                   </motion.div>
                   <motion.div style={{ x: textX2 }}>
                     <TextAnimation 
                       text="ENGINEERING" 
-                      image="/images/text-bg-1.png" 
+                      image="/images/service-3.jpg" 
                       className="items-end"
                     />
                   </motion.div>

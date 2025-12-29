@@ -42,6 +42,7 @@ const config: Config = {
       animation: {
         marquee: "marquee var(--duration, 40s) linear infinite",
         "marquee-reverse": "marquee-reverse var(--duration, 40s) linear infinite",
+        text: "text 5s ease infinite",
       },
       keyframes: {
         marquee: {
@@ -49,6 +50,28 @@ const config: Config = {
         },
         "marquee-reverse": {
           to: { transform: "translateX(0)" },
+        },
+        text: {
+          "0%": {
+            "background-position": "0 0",
+          },
+          "50%": {
+            "background-position": "200px",
+          },
+          "100%": {
+            "background-position": "0 0",
+          },
+        },
+        textReverse: {
+          "0%": {
+            "background-position": "0 0",
+          },
+          "50%": {
+            "background-position": "-200px",
+          },
+          "100%": {
+            "background-position": "0 0",
+          },
         },
       },
     },

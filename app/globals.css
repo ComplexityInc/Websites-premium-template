@@ -1,25 +1,27 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @theme {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  
+
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  
+
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  
+
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
-  
+
   --authorization-font: var(--font-sans); /* Use as default sans */
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /* 
@@ -38,9 +40,9 @@
 
   --border: 220 10% 90%;
   --input: 220 10% 90%;
-  --ring: 140 15% 40%; 
+  --ring: 140 15% 40%;
 
-  --accent: 140 15% 40%; 
+  --accent: 140 15% 40%;
   --accent-foreground: 0 0% 100%;
 
   --radius: 0.25rem;
@@ -70,9 +72,12 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-border, hsl(220 10% 90%)); /* Fallback or direct var */
+    border-color: var(
+      --color-border,
+      hsl(220 10% 90%)
+    ); /* Fallback or direct var */
   }
-  
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);

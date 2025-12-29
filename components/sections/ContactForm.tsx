@@ -78,9 +78,15 @@ export function ContactForm() {
           />
         </div>
 
-        <Button type="submit" variant="solid" className="w-full bg-black text-white hover:bg-black/90" disabled={formState === "submitting"}>
-          {formState === "submitting" ? "Sending..." : "Send Message"}
-        </Button>
+        <button 
+          type="submit" 
+          disabled={formState === "submitting"}
+          className="w-full relative group overflow-hidden bg-zinc-950 text-white px-8 py-4 font-bold uppercase tracking-widest transition-all hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span className="relative z-10 flex items-center justify-center gap-2">
+            {formState === "submitting" ? "Sending..." : "Send Message"}
+          </span>
+        </button>
       </form>
     </Reveal>
   );

@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/Container";
 
 export function Footer() {
   return (
-    <footer className="bg-background border-t border-border py-16">
+    <footer className="relative z-20 bg-background border-t border-border py-16">
       <Container className="flex flex-col items-center text-center">
         <h2 className="text-2xl font-bold uppercase tracking-tight mb-8">
           {siteConfig.name}
