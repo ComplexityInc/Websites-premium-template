@@ -35,17 +35,23 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const blobColor = variant === "solid" ? "bg-white" : "bg-accent";
 
     // The animated background blob
-    // FIXED: Using Tailwind-native translate utilities that are guaranteed to compile
-    // Wide buttons use larger fixed dimensions with simpler transform logic
+    // Uses viewport-relative sizing (vmax) to guarantee coverage on any button width
     const animatedBlob = (
-      <span className={cn(
-        "pointer-events-none absolute rounded-full transition-all duration-500 ease-out z-0",
-        blobColor,
-        // Standard button: blob starts off-screen bottom-left, slides up-right on hover
-        !wide && "w-60 h-60 -bottom-32 -left-32 rotate-[-40deg] group-hover:bottom-0 group-hover:left-0 group-hover:-translate-y-1/4",
-        // Wide button: much larger blob, uses same bottom-left to center animation
-        wide && "w-[600px] h-[600px] -bottom-[500px] -left-[200px] rotate-[-40deg] group-hover:bottom-[-200px] group-hover:left-[-100px]"
-      )} />
+      <span
+        className={cn(
+          "pointer-events-none absolute bottom-0 left-0 rounded-full transition-all duration-500 ease-out z-0",
+          blobColor,
+          // Standard buttons (compact, like header CTA)
+          !wide && "w-60 h-60 rotate-[-40deg] -translate-x-full translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-hover:translate-y-0",
+          // Wide buttons (form submit): guaranteed coverage + fully hidden at rest
+          wide && [
+            "w-[120vmax] h-[120vmax]",
+            "rotate-[-40deg]",
+            "-translate-x-[120%] translate-y-[120%]",
+            "group-hover:translate-x-[-35%] group-hover:translate-y-[-35%]"
+          ].join(" ")
+        )}
+      />
     );
 
     // Inner text span
