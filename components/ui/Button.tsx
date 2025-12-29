@@ -13,7 +13,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "outline", size = "default", wide = false, href, children, ...props }, ref) => {
     
     // Base container styles
-    // CRITICAL: "group" enables group-hover on children, "relative overflow-hidden" clips the blob
+    // REVERTED to original logic (keeps hover:text-* functionality on container)
     const baseStyles = "relative inline-flex items-center justify-center font-medium overflow-hidden transition-all duration-300 ease-in-out group outline-none focus:ring-2 focus:ring-ring disabled:pointer-events-none disabled:opacity-50 uppercase tracking-wide text-sm";
     
     // Size styles
@@ -25,44 +25,33 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const sizeClasses = sizes[size];
 
     // Variant-specific styles (outer container)
-    // REMOVED hover:text-* from container to avoid conflict with inner span group-hover
+    // REVERTED: Restored original hover:text-white logic on container
     const variantContainerStyles = {
-       solid: "bg-accent border border-accent",
-       outline: "bg-transparent border border-accent",
+       solid: "bg-accent text-accent-foreground border border-accent hover:text-white",
+       outline: "bg-transparent border border-accent text-accent hover:text-white",
     };
 
     // Determine blob color based on variant
     const blobColor = variant === "solid" ? "bg-white" : "bg-accent";
 
     // The animated background blob
-    // Uses viewport-relative sizing (vmax) to guarantee coverage on any button width
-    const animatedBlob = (
-      <span
-        className={cn(
-          "pointer-events-none absolute bottom-0 left-0 rounded-full transition-all duration-500 ease-out z-0",
-          blobColor,
-          // Standard buttons (compact, like header CTA)
-          !wide && "w-60 h-60 rotate-[-40deg] -translate-x-full translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-hover:translate-y-0",
-          // Wide buttons (form submit): guaranteed coverage + fully hidden at rest
-          wide && [
-            "w-[120vmax] h-[120vmax]",
-            "rotate-[-40deg]",
-            "-translate-x-[120%] translate-y-[120%]",
-            "group-hover:translate-x-[-35%] group-hover:translate-y-[-35%]"
-          ].join(" ")
-        )}
-      />
-    );
+    // MODIFIED: Only renders if !wide to disable animation on contact form button.
+    // Restored original transform logic for the standard button.
+    const animatedBlob = !wide ? (
+      <span className={cn(
+        "pointer-events-none absolute bottom-0 left-0 rounded-full transition-all duration-500 ease-out z-0",
+        blobColor,
+        "w-60 h-60 rotate-[-40deg] -translate-x-full translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0 group-hover:translate-y-0"
+      )} />
+    ) : null;
 
     // Inner text span
-    // Text color controlled ONLY here via group-hover (no conflict with container)
+    // REVERTED: Simplified back to original intent, z-10 to stay above blob.
+    // Relying on container hover:text-white for consistent text color change.
     const contentSpan = (
       <span className={cn(
         "relative w-full text-center transition-colors duration-300 ease-in-out z-10",
-        // Solid: white text -> green text on hover (white blob reveals)
-        variant === "solid" && "text-accent-foreground group-hover:text-accent",
-        // Outline: green text -> white text on hover (green blob fills)
-        variant === "outline" && "text-accent group-hover:text-white"
+        variant === "solid" ? "group-hover:text-accent" : "text-current group-hover:text-white"
       )}>
         {children}
       </span>
