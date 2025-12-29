@@ -78,18 +78,15 @@ export function ContactForm() {
           />
         </div>
 
-        <button 
+        <Button 
           type="submit" 
           disabled={formState === "submitting"}
-          className="w-full relative group overflow-hidden bg-zinc-950 text-white px-8 py-4 font-bold uppercase tracking-widest transition-all disabled:opacity-50 disabled:cursor-not-allowed rounded"
+          variant="solid"
+          wide
+          className="w-full"
         >
-          {/* Animation Fill - Large dimensions to ensure coverage */}
-          <span className="absolute w-[200%] h-[500%] bg-white bottom-0 left-0 -rotate-45 -translate-x-full translate-y-full transition-transform duration-500 ease-out group-hover:translate-x-[-30%] group-hover:translate-y-[-30%] origin-bottom-left" />
-          
-          <span className="relative z-10 flex items-center justify-center gap-2 mix-blend-difference text-white">
-            {formState === "submitting" ? "Sending..." : "Send Message"}
-          </span>
-        </button>
+          {formState === "submitting" ? "Sending..." : "Send Message"}
+        </Button>
       </form>
     </Reveal>
   );

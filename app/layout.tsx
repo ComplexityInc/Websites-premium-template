@@ -32,6 +32,10 @@ import { SmoothScroll } from "@/components/providers/SmoothScroll";
 
 // ... existing code ...
 
+import { ScrollToHash } from "@/components/scroll/ScrollToHash";
+
+// ... existing code ...
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,6 +48,7 @@ export default function RootLayout({
         fontSans.variable
       )} suppressHydrationWarning>
         <SmoothScroll>
+          <ScrollToHash />
           <SiteNav />
           <main className="flex-1 min-h-screen flex flex-col">
             {children}
